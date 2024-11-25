@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucky Draw</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f9f9f9;
+      padding: 20px;
+      height: 100dvh;
+      overflow: hidden;
+    }
+    h1 {
+      color: #333;
+    }
+    .lucky-draw-box {
+      margin: 20px auto;
+      width: 300px;
+      height: 300px;
+      background-color: #fff;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: #555;
+      cursor: pointer;
+    }
+    .lucky-draw-box span {
+        transition: all 0.3s ease;
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .lucky-draw-box:hover {
+      background-color: #f0f0f0;
+      border-color: #aaa;
+    }
+    .animate {
+      animation: fadeScale 0.5s ease-in-out;
+    }
+    @keyframes fadeScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #007BFF;
+    }
+    .rules{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: start;
+    }
+
+    /* GIFs */
+    .gif-container {
+      position: fixed;
+      bottom: 0%;
+      /* transform: translateY(-50%); */
+      width: auto;
+      height: auto;
+      max-width: 320px;
+      animation: gifMoveIn 1s forwards;
+      display: none;
+    }
+    .gif-left {
+      left: -150px;
+    }
+    .gif-right {
+      right: -150px;
+    }
+    @keyframes gifMoveInLeft {
+      0% {
+        left: -150px;
+        opacity: 0;
+      }
+      100% {
+        left: -85px;
+        opacity: 1;
+      }
+    }
+    @keyframes gifMoveInRight {
+      0% {
+        right: -150px;
+        opacity: 0;
+      }
+      100% {
+        right: -85px;
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Lucky Draw</h1>
+  <div class="lucky-draw-box" id="luckyDrawBox"><span id="drawText">Click Me!</span></div>
+  <!-- <div class="result" id="result"></div> -->
+  <br><hr>
+
+  <div class="rules">
+    <h1>遊戲規則</h1>
+    <ul>
+        <li>💁🏻budget$200-300</li>
+        <li>❌唔可以買嘢食 </li>
+        <li>❌公仔</li>
+    </ul>
+  </div>
+
+  <!-- GIFs -->
+  <img src="download-removebg-preview.png" class="gif-container gif-left" id="gifLeft" alt="Left GIF">
+  <img src="download-removebg-preview_flip.png" class="gif-container gif-right" id="gifRight" alt="Right GIF">
+
+  <script>
+    // 獎品清單
+    const types = [
+      "頭獎 - $1000現金券",
+      "二獎 - $500購物券",
+      "三獎 - $200咖啡券",
+      "四獎 - 謝謝惠顧"
+    ];
+    let clicked = false;
+    const result = document.getElementById("test");
+    // result.innerHTML = clicked; 
+
+    // Lucky Draw 點擊事件
+    // document.getElementById("luckyDrawBox").addEventListener("click", () => {
+    //   // 隨機選擇一個類型
+    //   const randomIndex = Math.floor(Math.random() * types.length);
+    //   if(!clicked){
+    //     const selectedType = types[randomIndex];
+    //     // 顯示結果
+    //     document.getElementById("luckyDrawBox").innerText = `恭喜您！您贏得了：${selectedType}`;
+    //     clicked = true;
+    //     //result.innerHTML = clicked; 
+        
+    //   }else{
+    //     return;
+    //   }
+    //   const selectedType = types[randomIndex];
+    // });
+
+    document.getElementById("luckyDrawBox").addEventListener("click", () => {
+        const randomLetter = generateRandomLetter();
+        const luckyDrawBox = document.getElementById("luckyDrawBox");
+        const gifLeft = document.getElementById("gifLeft");
+        const gifRight = document.getElementById("gifRight");
+
+        if(!clicked){
+            document.getElementById("drawText").innerText = "你抽中咗" + randomLetter + "字開頭";
+            drawText.classList.add("animate");
+            clicked = true;
+
+            // 显示左右 GIF 并触发动画
+            gifLeft.style.display = "block";
+            gifRight.style.display = "block";
+            gifLeft.style.animation = "gifMoveInLeft 1s forwards";
+            gifRight.style.animation = "gifMoveInRight 1s forwards";
+
+            // 动画结束后移除类，防止重复触发动画
+            luckyDrawBox.addEventListener("animationend", () => {
+                drawText.classList.remove("animate");
+            }, { once: true });
+        }else{
+            return;
+        }
+    });
+    function generateRandomLetter() {
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const randomIndex = Math.floor(Math.random() * letters.length);
+        return letters[randomIndex];
+    }
+  </script>
+</body>
+</html>
