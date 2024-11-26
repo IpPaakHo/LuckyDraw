@@ -109,9 +109,14 @@
 </head>
 <body>
   <h1>Lucky Draw</h1>
-  <div class="lucky-draw-box" id="luckyDrawBox"><span id="drawText">Click Me!</span></div>
+  <div class="lucky-draw-box" id="luckyDrawBox" onclick="playAudio()"><span id="drawText">Click Me!</span></div>
   <!-- <div class="result" id="result"></div> -->
-  <br><hr>
+  <br>
+  <audio id="myAudio" controls loop>
+    <source src="bg.mp3" type="audio/mpeg">
+    您的瀏覽器不支持音頻播放。
+  </audio>
+  <hr>
 
   <div class="rules">
     <h1>遊戲規則</h1>
@@ -184,6 +189,13 @@
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const randomIndex = Math.floor(Math.random() * letters.length);
         return letters[randomIndex];
+    }
+
+    // Audio
+    const audio = document.getElementById("myAudio");
+
+    function playAudio() {
+      audio.play();
     }
   </script>
 </body>
